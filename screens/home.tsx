@@ -1,22 +1,23 @@
 import Entry from '@/components/entryArea';
 import Title from '@/components/title';
-import { View, StatusBar, StyleSheet, ViewStyle } from 'react-native';
+import { View, StyleSheet, ViewStyle } from 'react-native';
 
-type HomePropsType = {
-  userNumber: number;
+type HomeScreenProps = {
+  userNumber: number | undefined;
   confirmButtonHandler: () => void;
   cancelButtonHandler: () => void;
   handleUserInput: (input: number) => void;
 };
+
 export default function Home({
   userNumber,
   confirmButtonHandler,
   cancelButtonHandler,
   handleUserInput,
-}: HomePropsType) {
+}: HomeScreenProps) {
   return (
     <View style={styles.container}>
-      <Title />
+      <Title title="Guess My Number" />
       <Entry
         userGuess={userNumber as number}
         confirmButtonHandler={confirmButtonHandler}

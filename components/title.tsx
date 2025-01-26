@@ -1,10 +1,19 @@
 import { ReactElement } from 'react';
 import { View, Text, StyleSheet, ViewStyle, TextStyle } from 'react-native';
 
-export default function Title(): ReactElement {
+type titlePropsType = {
+  title: string;
+  style?: ViewStyle;
+  textStyle?: TextStyle;
+};
+export default function Title({
+  title,
+  style,
+  textStyle,
+}: titlePropsType): ReactElement {
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Guess My Number</Text>
+    <View style={{ ...styles.container, ...style }}>
+      <Text style={{ ...styles.text, ...textStyle }}>{title}</Text>
     </View>
   );
 }

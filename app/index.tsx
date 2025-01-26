@@ -1,15 +1,17 @@
 import { StatusBar } from 'expo-status-bar';
-import { Alert, StyleSheet, View, ViewStyle } from 'react-native';
-import Title from '@/components/title';
+import { Alert, StyleSheet, ViewStyle } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { Stack } from 'expo-router';
-import Entry from '@/components/entryArea';
+// import { Stack } from 'expo-router';
 import { useState } from 'react';
-import Home from './home';
+import Home from '@/screens/home';
+import { Stack } from 'expo-router';
+import Game from '@/screens/game';
 
 export default function Index() {
   const [userNumber, setUserNumber] = useState<number>();
   const [numberToGuess, setNumberToGuess] = useState<number>();
+  const [screen, setScreen] = useState<'home' | 'game'>('home');
+  const [computerGuesses, setComputerGuesses] = useState<string[]>([]);
 
   function handleUserInput(input: number): void {
     if (typeof input === 'string') return;
@@ -21,6 +23,7 @@ export default function Index() {
     if (userNumber) {
       if (userNumber > 0 && userNumber < 100) {
         setNumberToGuess(userNumber);
+        setScreen('game');
       } else {
         Alert.alert('Make sure your number is between 1 and 99 inclusive');
       }
@@ -34,14 +37,18 @@ export default function Index() {
 
   return (
     <SafeAreaProvider>
-      <Stack.Screen options={{ headerShown: false }} />
       <SafeAreaView style={styles.safeArea}>
-        <Home
-          cancelButtonHandler={cancelButtonHandler}
-          confirmButtonHandler={confirmButtonHandler}
-          handleUserInput={handleUserInput}
-          userNumber={userNumber as number}
-        />
+        <Stack.Screen options={{ headerShown: false }} />
+        {screen === 'home' ? (
+          <Home
+            cancelButtonHandler={cancelButtonHandler}
+            confirmButtonHandler={confirmButtonHandler}
+            handleUserInput={handleUserInput}
+            userNumber={userNumber}
+          />
+        ) : (
+          <Game opponentsGuess={numberToGuess as number} />
+        )}
         <StatusBar style="auto" />
       </SafeAreaView>
     </SafeAreaProvider>

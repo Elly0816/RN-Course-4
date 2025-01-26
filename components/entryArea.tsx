@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     height: 250,
   } as ViewStyle,
   text: {
-    color: '#ffff22',
+    color: '#f2fa0d',
     fontSize: 25,
     fontWeight: 'bold',
   } as TextStyle,
