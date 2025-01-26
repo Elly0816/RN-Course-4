@@ -6,23 +6,28 @@ import { useState } from 'react';
 import Home from '@/screens/home';
 import { Stack } from 'expo-router';
 import Game from '@/screens/game';
+import EndGame from '@/screens/endgame';
+import { screenType } from '@/types';
 
 export default function Index() {
-  const [userNumber, setUserNumber] = useState<number>();
+  const [enteredNumber, setEnteredNumber] = useState<number | undefined>(
+    undefined
+  );
   const [numberToGuess, setNumberToGuess] = useState<number>();
-  const [screen, setScreen] = useState<'home' | 'game'>('home');
-  const [computerGuesses, setComputerGuesses] = useState<string[]>([]);
+  const [screen, setScreen] = useState<screenType>('home');
+  const [computerGuesses, setComputerGuesses] = useState<number[]>([]);
 
   function handleUserInput(input: number): void {
     if (typeof input === 'string') return;
 
-    setUserNumber(Number(input));
+    setEnteredNumber(input);
   }
 
   function confirmButtonHandler(): void {
-    if (userNumber) {
-      if (userNumber > 0 && userNumber < 100) {
-        setNumberToGuess(userNumber);
+    if (enteredNumber) {
+      if (enteredNumber > 0 && enteredNumber < 100) {
+        setNumberToGuess(enteredNumber);
+        setEnteredNumber(undefined);
         setScreen('game');
       } else {
         Alert.alert('Make sure your number is between 1 and 99 inclusive');
@@ -32,7 +37,7 @@ export default function Index() {
 
   function cancelButtonHandler(): void {
     setNumberToGuess(undefined);
-    setUserNumber(undefined);
+    setEnteredNumber(undefined);
   }
 
   return (
@@ -44,10 +49,22 @@ export default function Index() {
             cancelButtonHandler={cancelButtonHandler}
             confirmButtonHandler={confirmButtonHandler}
             handleUserInput={handleUserInput}
-            userNumber={userNumber}
+            userNumber={enteredNumber}
+          />
+        ) : screen === 'game' ? (
+          <Game
+            playersNumber={numberToGuess as number}
+            setScreen={setScreen}
+            computerGuesses={computerGuesses}
+            setComputerGuesses={setComputerGuesses}
           />
         ) : (
-          <Game opponentsGuess={numberToGuess as number} />
+          <EndGame
+            guessedNumber={numberToGuess as number}
+            numberOfGuesses={computerGuesses.length}
+            setScreen={setScreen}
+            setComputerGuesses={setComputerGuesses}
+          />
         )}
         <StatusBar style="auto" />
       </SafeAreaView>

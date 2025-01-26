@@ -5,10 +5,12 @@ import Button from './button';
 type HigherOrLowerProps = {
   higherButtonHandler: () => void;
   lowerButtonHandler: () => void;
+  disabled: boolean;
 };
 export default function HigherOrLower({
   higherButtonHandler,
   lowerButtonHandler,
+  disabled,
 }: HigherOrLowerProps): ReactElement {
   return (
     <View style={styles.container}>
@@ -19,12 +21,14 @@ export default function HigherOrLower({
           onPress={lowerButtonHandler}
           style={styles.button}
           textStyle={styles.buttonText}
+          disabled={disabled}
         />
         <Button
           title="➕"
           onPress={higherButtonHandler}
           style={styles.button}
           textStyle={styles.buttonText}
+          disabled={disabled}
         />
       </View>
     </View>

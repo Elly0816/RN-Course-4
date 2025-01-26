@@ -6,6 +6,7 @@ type CustomButtonProps = {
   onPress: () => void;
   style?: ViewStyle;
   textStyle?: TextStyle;
+  disabled?: boolean;
 };
 
 export default function Button({
@@ -13,9 +14,10 @@ export default function Button({
   onPress,
   style,
   textStyle,
+  disabled,
 }: CustomButtonProps): ReactElement {
   return (
-    <Pressable style={style} onPress={onPress}>
+    <Pressable style={style} onPress={onPress} disabled={disabled}>
       <Text style={textStyle}>{title}</Text>
     </Pressable>
   );

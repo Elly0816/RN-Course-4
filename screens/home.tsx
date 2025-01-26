@@ -19,7 +19,7 @@ export default function Home({
     <View style={styles.container}>
       <Title title="Guess My Number" />
       <Entry
-        userGuess={userNumber as number}
+        userNumber={userNumber as number}
         confirmButtonHandler={confirmButtonHandler}
         handleUserInput={handleUserInput}
         cancelButtonHandler={cancelButtonHandler}

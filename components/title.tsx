@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     justifyContent: 'center',
+    alignItems: 'center',
   } as ViewStyle,
   text: {
     fontWeight: 'bold',

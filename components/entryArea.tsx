@@ -10,18 +10,21 @@ import {
 import Button from './button';
 
 type EntryPropsType = {
-  userGuess: number;
+  userNumber: number;
   handleUserInput: (input: number) => void;
   confirmButtonHandler: () => void;
   cancelButtonHandler: () => void;
 };
 export default function Entry({
-  userGuess,
+  userNumber,
   handleUserInput,
   confirmButtonHandler,
   cancelButtonHandler,
 }: EntryPropsType): ReactElement {
   function onChangeText(text: string) {
+    if (text === '') {
+      handleUserInput(undefined as any);
+    }
     const number = parseInt(text);
     if (!isNaN(number)) {
       handleUserInput(number);
@@ -34,7 +37,7 @@ export default function Entry({
         inputMode="numeric"
         style={styles.textInput}
         placeholder=""
-        value={userGuess?.toString()}
+        value={userNumber ? String(userNumber) : ''}
         onChangeText={(text) => {
           onChangeText(text);
         }}
