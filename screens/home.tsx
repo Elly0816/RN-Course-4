@@ -1,12 +1,12 @@
 import Entry from '@/components/entryArea';
 import Title from '@/components/title';
-import { View, StyleSheet, ViewStyle } from 'react-native';
+import { View, StyleSheet, ViewStyle, TextStyle } from 'react-native';
 
 type HomeScreenProps = {
-  userNumber: number | undefined;
+  userNumber: number | undefined | string;
   confirmButtonHandler: () => void;
   cancelButtonHandler: () => void;
-  handleUserInput: (input: number) => void;
+  handleUserInput: (input: string) => void;
 };
 
 export default function Home({
@@ -17,9 +17,13 @@ export default function Home({
 }: HomeScreenProps) {
   return (
     <View style={styles.container}>
-      <Title title="Guess My Number" />
+      <Title
+        textStyle={styles.titleText}
+        title="Guess My Number"
+        style={styles.title}
+      />
       <Entry
-        userNumber={userNumber as number}
+        userNumber={userNumber as string}
         confirmButtonHandler={confirmButtonHandler}
         handleUserInput={handleUserInput}
         cancelButtonHandler={cancelButtonHandler}
@@ -31,9 +35,12 @@ export default function Home({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#aaaaaa',
     alignItems: 'center',
     justifyContent: 'space-evenly',
     padding: 20,
   } as ViewStyle,
+  title: {
+    width: '100%',
+  } as ViewStyle,
+  titleText: { fontFamily: 'OpenSansBold' } as TextStyle,
 });

@@ -1,3 +1,4 @@
+import { COLORS } from '@/constants/Colors';
 import { ReactElement } from 'react';
 import { StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native';
 
@@ -21,15 +22,16 @@ export default function NumberDisplay({
 const styles = StyleSheet.create({
   container: {
     borderWidth: 3,
-    borderColor: '#ffcc22',
+    borderColor: COLORS.BRIGHTYELLOW,
     width: '80%',
-    height: 70,
+    height: 120,
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
   } as ViewStyle,
   text: {
     fontSize: 30,
-    color: '#ffcc22',
+    fontWeight: 'bold',
+    color: COLORS.BRIGHTYELLOW,
   } as TextStyle,
 });

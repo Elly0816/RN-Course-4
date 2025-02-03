@@ -1,3 +1,4 @@
+import { COLORS } from '@/constants/Colors';
 import { ReactElement } from 'react';
 import { View, Text, StyleSheet, ViewStyle, TextStyle } from 'react-native';
 
@@ -12,8 +13,8 @@ export default function Title({
   textStyle,
 }: titlePropsType): ReactElement {
   return (
-    <View style={{ ...styles.container, ...style }}>
-      <Text style={{ ...styles.text, ...textStyle }}>{title}</Text>
+    <View style={[styles.container, style]}>
+      <Text style={[styles.text, textStyle]}>{title}</Text>
     </View>
   );
 }
@@ -21,17 +22,17 @@ export default function Title({
 const styles = StyleSheet.create({
   container: {
     // flex: 1,
-    height: 90,
+    height: 70,
     borderWidth: 5,
-    borderColor: '#ffffff',
+    borderColor: COLORS.WHITE,
     padding: 10,
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
   } as ViewStyle,
   text: {
-    fontWeight: 'bold',
-    color: '#ffffff',
+    // fontWeight: 'bold',
+    color: COLORS.WHITE,
     fontSize: 25,
   } as TextStyle,
 });

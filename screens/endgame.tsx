@@ -1,8 +1,17 @@
 import Button from '@/components/button';
 import Title from '@/components/title';
+import { COLORS } from '@/constants/Colors';
 import { screenType } from '@/types';
 import { ReactElement } from 'react';
-import { StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TextStyle,
+  View,
+  ViewStyle,
+  Image,
+  ImageStyle,
+} from 'react-native';
 
 type EndGamePropsType = {
   numberOfGuesses: number;
@@ -18,8 +27,15 @@ export default function EndGame({
 }: EndGamePropsType): ReactElement {
   return (
     <View style={styles.container}>
-      <Title title="Game Over!" />
-      {/* <Image source={require('')} /> */}
+      <Title
+        textStyle={styles.titleText}
+        style={styles.title}
+        title="Game Over!"
+      />
+      <Image
+        style={styles.image}
+        source={require('@/assets/images/success.png')}
+      />
       <Text style={styles.mainText}>
         Your phone needed <Text style={styles.number}>{numberOfGuesses}</Text>{' '}
         rounds to guess the number{' '}
@@ -30,7 +46,7 @@ export default function EndGame({
           setScreen('home');
           setComputerGuesses([]);
         }}
-        title="Go Home"
+        title="Start New Game"
         style={styles.button}
         textStyle={styles.text}
       />
@@ -45,20 +61,42 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     alignItems: 'center',
   } as ViewStyle,
-  number: { color: '#ffaa22', fontSize: 30, fontWeight: 'bold' } as TextStyle,
+  number: {
+    color: COLORS.LIGHTPURPLE,
+    fontSize: 30,
+    fontFamily: 'OpenSansBold',
+  } as TextStyle,
   button: {
-    width: '50%',
-    height: 40,
+    width: '80%',
+    height: 50,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 20,
-    backgroundColor: '#ff33f2',
+    backgroundColor: COLORS.BRIGHTYELLOW,
+    paddingHorizontal: 30,
+    // elevation: 20,
   } as ViewStyle,
   text: {
-    color: '#ffffff',
+    color: COLORS.BLACK,
   } as TextStyle,
   mainText: {
     // color: '#ffffff',
-    fontSize: 18,
+    color: COLORS.WHITE,
+    fontFamily: 'OpenSansRegular',
+    fontSize: 20,
   } as TextStyle,
+  title: {
+    width: '100%',
+  } as ViewStyle,
+  titleText: {
+    fontFamily: 'OpenSansBold',
+  } as TextStyle,
+  image: {
+    resizeMode: 'stretch',
+    height: 220,
+    aspectRatio: 1,
+    borderRadius: 200,
+    borderColor: COLORS.BLACK,
+    borderWidth: 2,
+  } as ImageStyle,
 });

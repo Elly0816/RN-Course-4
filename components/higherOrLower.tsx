@@ -1,6 +1,8 @@
 import { ReactElement } from 'react';
 import { StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import Button from './button';
+import { COLORS } from '@/constants/Colors';
 
 type HigherOrLowerProps = {
   higherButtonHandler: () => void;
@@ -17,19 +19,35 @@ export default function HigherOrLower({
       <Text style={styles.text}>Higher Or Lower</Text>
       <View style={styles.buttonContainer}>
         <Button
-          title="➖"
+          // title="➖"
           onPress={lowerButtonHandler}
           style={styles.button}
           textStyle={styles.buttonText}
           disabled={disabled}
-        />
+          rippleColor="#cc2cbb"
+        >
+          <Ionicons
+            name="remove"
+            size={24}
+            style={styles.icon}
+            color={COLORS.BLACK}
+          />
+        </Button>
         <Button
-          title="➕"
+          // title="➕"
           onPress={higherButtonHandler}
           style={styles.button}
           textStyle={styles.buttonText}
           disabled={disabled}
-        />
+          rippleColor="#cc2cbb"
+        >
+          <Ionicons
+            name="add"
+            size={24}
+            style={styles.icon}
+            color={COLORS.BLACK}
+          />
+        </Button>
       </View>
     </View>
   );
@@ -37,11 +55,11 @@ export default function HigherOrLower({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#ff1fee',
+    backgroundColor: COLORS.PURPLE,
     height: 150,
     width: '100%',
     borderRadius: 12,
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     paddingVertical: 10,
     alignItems: 'center',
   } as ViewStyle,
@@ -53,9 +71,10 @@ const styles = StyleSheet.create({
   } as ViewStyle,
   text: {
     fontSize: 25,
+    color: COLORS.YELLOW,
   } as TextStyle,
   button: {
-    backgroundColor: '#d5ea1a',
+    backgroundColor: COLORS.YELLOW,
     width: 130,
     height: 40,
     padding: 10,
@@ -63,4 +82,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   } as ViewStyle,
   buttonText: {} as TextStyle,
+  icon: { fontWeight: 'bold' } as TextStyle,
 });

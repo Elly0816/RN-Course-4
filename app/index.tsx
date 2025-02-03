@@ -1,36 +1,67 @@
 import { StatusBar } from 'expo-status-bar';
-import { Alert, StyleSheet, ViewStyle } from 'react-native';
+import {
+  Alert,
+  StyleSheet,
+  ViewStyle,
+  ImageBackground,
+  ImageStyle,
+} from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-// import { Stack } from 'expo-router';
-import { useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import Home from '@/screens/home';
 import { Stack } from 'expo-router';
 import Game from '@/screens/game';
 import EndGame from '@/screens/endgame';
 import { screenType } from '@/types';
+import { LinearGradient } from 'expo-linear-gradient';
+import { COLORS } from '@/constants/Colors';
+import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
 
-export default function Index() {
-  const [enteredNumber, setEnteredNumber] = useState<number | undefined>(
-    undefined
-  );
+SplashScreen.preventAutoHideAsync();
+
+export default function Index(): ReactElement {
+  const [enteredNumber, setEnteredNumber] = useState<string>();
   const [numberToGuess, setNumberToGuess] = useState<number>();
   const [screen, setScreen] = useState<screenType>('home');
   const [computerGuesses, setComputerGuesses] = useState<number[]>([]);
 
-  function handleUserInput(input: number): void {
-    if (typeof input === 'string') return;
+  const [loaded, error] = useFonts({
+    OpenSansRegular: require('@/assets/fonts/OpenSans-Regular.ttf'),
+    OpenSansBold: require('@/assets/fonts/OpenSans-Bold.ttf'),
+  });
 
+  useEffect(() => {
+    if (loaded || error) {
+      SplashScreen.hideAsync();
+    }
+  }, [loaded, error]);
+
+  if (!loaded && !error) {
+    return null as any;
+  }
+
+  function handleUserInput(input: string): void {
     setEnteredNumber(input);
   }
 
   function confirmButtonHandler(): void {
+    console.log(String(enteredNumber));
     if (enteredNumber) {
-      if (enteredNumber > 0 && enteredNumber < 100) {
-        setNumberToGuess(enteredNumber);
+      if (parseInt(enteredNumber) > 0 && parseInt(enteredNumber) < 100) {
+        setNumberToGuess(parseInt(enteredNumber));
         setEnteredNumber(undefined);
         setScreen('game');
       } else {
-        Alert.alert('Make sure your number is between 1 and 99 inclusive');
+        Alert.alert('Invalid Input', 'Pick a number from 1 to 99', [
+          {
+            text: 'Okay',
+            style: 'destructive',
+            onPress: () => {
+              setEnteredNumber(undefined);
+            },
+          },
+        ]);
       }
     }
   }
@@ -42,32 +73,44 @@ export default function Index() {
 
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={styles.safeArea}>
-        <Stack.Screen options={{ headerShown: false }} />
-        {screen === 'home' ? (
-          <Home
-            cancelButtonHandler={cancelButtonHandler}
-            confirmButtonHandler={confirmButtonHandler}
-            handleUserInput={handleUserInput}
-            userNumber={enteredNumber}
-          />
-        ) : screen === 'game' ? (
-          <Game
-            playersNumber={numberToGuess as number}
-            setScreen={setScreen}
-            computerGuesses={computerGuesses}
-            setComputerGuesses={setComputerGuesses}
-          />
-        ) : (
-          <EndGame
-            guessedNumber={numberToGuess as number}
-            numberOfGuesses={computerGuesses.length}
-            setScreen={setScreen}
-            setComputerGuesses={setComputerGuesses}
-          />
-        )}
-        <StatusBar style="auto" />
-      </SafeAreaView>
+      <LinearGradient
+        colors={[COLORS.PURPLE, COLORS.YELLOW]}
+        style={styles.safeArea}
+      >
+        <ImageBackground
+          style={styles.safeArea}
+          imageStyle={styles.image}
+          resizeMode="cover"
+          source={require('../assets/images/background.png')}
+        >
+          <SafeAreaView style={styles.safeArea}>
+            <Stack.Screen options={{ headerShown: false }} />
+            {screen === 'home' ? (
+              <Home
+                cancelButtonHandler={cancelButtonHandler}
+                confirmButtonHandler={confirmButtonHandler}
+                handleUserInput={handleUserInput}
+                userNumber={enteredNumber}
+              />
+            ) : screen === 'game' ? (
+              <Game
+                playersNumber={numberToGuess as number}
+                setScreen={setScreen}
+                computerGuesses={computerGuesses}
+                setComputerGuesses={setComputerGuesses}
+              />
+            ) : (
+              <EndGame
+                guessedNumber={numberToGuess as number}
+                numberOfGuesses={computerGuesses.length}
+                setScreen={setScreen}
+                setComputerGuesses={setComputerGuesses}
+              />
+            )}
+          </SafeAreaView>
+        </ImageBackground>
+      </LinearGradient>
+      <StatusBar style="auto" />
     </SafeAreaProvider>
   );
 }
@@ -76,11 +119,7 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
   } as ViewStyle,
-  // container: {
-  //   flex: 1,
-  //   backgroundColor: '#aaaaaa',
-  //   alignItems: 'center',
-  //   justifyContent: 'space-evenly',
-  //   padding: 20,
-  // } as ViewStyle,
+  image: {
+    opacity: 0.15,
+  } as ImageStyle,
 });

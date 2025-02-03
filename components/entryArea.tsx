@@ -8,10 +8,11 @@ import {
   TextInput,
 } from 'react-native';
 import Button from './button';
+import { COLORS } from '@/constants/Colors';
 
 type EntryPropsType = {
-  userNumber: number;
-  handleUserInput: (input: number) => void;
+  userNumber: string;
+  handleUserInput: (input: string) => void;
   confirmButtonHandler: () => void;
   cancelButtonHandler: () => void;
 };
@@ -22,22 +23,18 @@ export default function Entry({
   cancelButtonHandler,
 }: EntryPropsType): ReactElement {
   function onChangeText(text: string) {
-    if (text === '') {
-      handleUserInput(undefined as any);
-    }
-    const number = parseInt(text);
-    if (!isNaN(number)) {
-      handleUserInput(number);
-    }
+    handleUserInput(text);
   }
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Enter a number</Text>
       <TextInput
+        maxLength={2}
         inputMode="numeric"
         style={styles.textInput}
         placeholder=""
-        value={userNumber ? String(userNumber) : ''}
+        // value={userNumber >= 0 ? String(userNumber) : ''}
+        value={userNumber}
         onChangeText={(text) => {
           onChangeText(text);
         }}
@@ -46,16 +43,12 @@ export default function Entry({
       <View style={styles.buttonContainer}>
         <Button
           onPress={() => {
-            console.log('Cancel was pressed');
+            console.log('Reset was pressed');
             cancelButtonHandler();
           }}
-          title="Cancel"
-          style={{ ...styles.cancelButton, ...styles.button }}
-          textStyle={styles.buttonText}
+          title="Reset"
         />
         <Button
-          textStyle={styles.buttonText}
-          style={{ ...styles.confirmButton, ...styles.button }}
           onPress={() => {
             console.log('Confirm was pressed');
             confirmButtonHandler();
@@ -69,28 +62,33 @@ export default function Entry({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#9911ff',
+    backgroundColor: COLORS.PURPLE,
+    elevation: 20,
+    shadowColor: COLORS.BLACK,
+    shadowOffset: { width: 3, height: 2 },
+    shadowRadius: 15,
+    shadowOpacity: 0.25,
     width: '100%',
-    // marginBottom: 500,
-    // marginTop: 50,
     borderRadius: 30,
     alignItems: 'center',
     justifyContent: 'space-evenly',
     padding: 20,
-    // flex: 5,
-    height: 250,
+    // height: 250,
   } as ViewStyle,
   text: {
-    color: '#f2fa0d',
+    color: COLORS.YELLOW,
     fontSize: 25,
-    fontWeight: 'bold',
+    fontFamily: 'OpenSansRegular',
   } as TextStyle,
   textInput: {
-    borderBottomWidth: 5,
-    fontSize: 20,
+    borderBottomWidth: 2,
+    fontSize: 32,
     fontWeight: 'bold',
-    borderBottomColor: '#000000',
+    borderBottomColor: COLORS.YELLOW,
     width: 60,
+    height: 60,
+    marginVertical: 8,
+    color: COLORS.YELLOW,
     textAlign: 'center',
   } as TextStyle,
   buttonContainer: {
@@ -100,21 +98,4 @@ const styles = StyleSheet.create({
     width: '100%',
     marginTop: 30,
   } as ViewStyle,
-  cancelButton: {
-    backgroundColor: '#ff2233',
-  } as ViewStyle,
-  confirmButton: {
-    backgroundColor: '#22ff33',
-  } as ViewStyle,
-  button: {
-    width: 130,
-    height: 40,
-    padding: 10,
-    borderRadius: 25,
-    alignItems: 'center',
-  } as ViewStyle,
-  buttonText: {
-    fontWeight: 'bold',
-    color: '#000000',
-  } as TextStyle,
 });

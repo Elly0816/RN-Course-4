@@ -4,7 +4,14 @@ import NumberDisplay from '@/components/numberDisplay';
 import Title from '@/components/title';
 import { screenType } from '@/types';
 import { ReactElement, useEffect, useRef, useState } from 'react';
-import { StyleSheet, FlatList, View, Alert, ViewStyle } from 'react-native';
+import {
+  StyleSheet,
+  FlatList,
+  View,
+  Alert,
+  ViewStyle,
+  TextStyle,
+} from 'react-native';
 
 type GamePropsType = {
   playersNumber: number;
@@ -12,6 +19,7 @@ type GamePropsType = {
   computerGuesses: number[];
   setComputerGuesses: React.Dispatch<React.SetStateAction<number[]>>;
 };
+
 export default function Game({
   playersNumber,
   setScreen,
@@ -58,7 +66,10 @@ export default function Game({
 
   function higherButtonHandler(): void {
     if (playersNumber < (computerGuess as number)) {
-      Alert.alert("Don't cheat");
+      Alert.alert(
+        "Don't cheat",
+        'You and I know the number you picked is less than that 😏'
+      );
       return;
     }
     setMinLimit((computerGuess as number) + 1);
@@ -72,7 +83,10 @@ export default function Game({
 
   function lowerButtonHandler(): void {
     if (playersNumber > (computerGuess as number)) {
-      Alert.alert("Don't cheat");
+      Alert.alert(
+        "Don't cheat",
+        'You and I know the number you picked is more than that 😏'
+      );
       return;
     }
     setMaxLimit((computerGuess as number) - 1);
@@ -85,7 +99,11 @@ export default function Game({
 
   return (
     <View style={styles.container}>
-      <Title title="Opponent's Guess" style={styles.title} />
+      <Title
+        textStyle={styles.titleText}
+        title="Opponent's Guess"
+        style={styles.title}
+      />
       <NumberDisplay numberGuessed={computerGuess as number} />
       <HigherOrLower
         higherButtonHandler={higherButtonHandler}
@@ -110,7 +128,6 @@ export default function Game({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#aaaaaa',
     alignItems: 'center',
     justifyContent: 'space-evenly',
     padding: 20,
@@ -118,9 +135,12 @@ const styles = StyleSheet.create({
   } as ViewStyle,
   title: {
     alignItems: 'center',
+    width: '100%',
   } as ViewStyle,
+
   list: {
     height: 250,
-    width: '80%',
+    width: '100%',
   } as ViewStyle,
+  titleText: { fontFamily: 'OpenSansBold' } as TextStyle,
 });

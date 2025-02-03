@@ -1,3 +1,4 @@
+import { COLORS } from '@/constants/Colors';
 import { ReactElement } from 'react';
 import { StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native';
 
@@ -11,11 +12,8 @@ export default function ListItem({
 }: ListItemPropsType): ReactElement {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>
-        {index + 1}
-        {')'}
-      </Text>
-      <Text style={styles.text}>{guess}</Text>
+      <Text style={styles.text}># {index + 1}</Text>
+      <Text style={styles.text}>Opponent's Guess: {guess}</Text>
     </View>
   );
 }
@@ -23,20 +21,24 @@ export default function ListItem({
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    backgroundColor: '#aadd31',
+    backgroundColor: COLORS.YELLOW,
     borderWidth: 3,
-    padding: 15,
-    paddingRight: 120,
-    // marginHorizontal: 100,
+    padding: 5,
+    paddingHorizontal: 15,
     borderRadius: 40,
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 20,
+    marginTop: 10,
+    elevation: 8,
+    shadowOffset: { height: 8, width: 0 },
+    shadowColor: COLORS.BLACK,
+    shadowRadius: 3,
+    shadowOpacity: 0.25,
   } as ViewStyle,
   text: {
     fontWeight: 'condensedBold',
     fontSize: 20,
-    color: '#222222',
+    color: COLORS.BLACK,
   } as TextStyle,
 });
