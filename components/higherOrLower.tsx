@@ -1,5 +1,12 @@
 import { ReactElement } from 'react';
-import { StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TextStyle,
+  View,
+  ViewStyle,
+  Dimensions,
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Button from './button';
 import { COLORS } from '@/constants/Colors';
@@ -9,6 +16,8 @@ type HigherOrLowerProps = {
   lowerButtonHandler: () => void;
   disabled: boolean;
 };
+
+const { height: deviceHeight, width: deviceWidth } = Dimensions.get('window');
 export default function HigherOrLower({
   higherButtonHandler,
   lowerButtonHandler,
@@ -62,6 +71,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     paddingVertical: 10,
     alignItems: 'center',
+    marginTop: deviceWidth < 380 ? 5 : 10,
   } as ViewStyle,
   buttonContainer: {
     width: '90%',
