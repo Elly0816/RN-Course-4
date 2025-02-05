@@ -30,7 +30,7 @@ export default function HigherOrLower({
             name="remove"
             size={24}
             style={styles.icon}
-            color={COLORS.BLACK}
+            color={COLORS.WHITE}
           />
         </Button>
         <Button
@@ -45,7 +45,7 @@ export default function HigherOrLower({
             name="add"
             size={24}
             style={styles.icon}
-            color={COLORS.BLACK}
+            color={COLORS.WHITE}
           />
         </Button>
       </View>
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     color: COLORS.YELLOW,
   } as TextStyle,
   button: {
-    backgroundColor: COLORS.YELLOW,
+    backgroundColor: COLORS.LIGHTPURPLE,
     width: 130,
     height: 40,
     padding: 10,

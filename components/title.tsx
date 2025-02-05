@@ -34,5 +34,6 @@ const styles = StyleSheet.create({
     // fontWeight: 'bold',
     color: COLORS.WHITE,
     fontSize: 25,
+    maxWidth: '80%',
   } as TextStyle,
 });
