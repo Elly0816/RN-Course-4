@@ -17,6 +17,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { COLORS } from '@/constants/Colors';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
+import React from 'react';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -72,46 +73,48 @@ export default function Index(): ReactElement {
   }
 
   return (
-    <SafeAreaProvider>
-      <LinearGradient
-        colors={[COLORS.PURPLE, COLORS.YELLOW]}
-        style={styles.safeArea}
-      >
-        <ImageBackground
+    <>
+      <StatusBar style="dark" />
+      <SafeAreaProvider>
+        <LinearGradient
+          colors={[COLORS.PURPLE, COLORS.YELLOW]}
           style={styles.safeArea}
-          imageStyle={styles.image}
-          resizeMode="cover"
-          source={require('../assets/images/background.png')}
         >
-          <SafeAreaView style={styles.safeArea}>
-            <Stack.Screen options={{ headerShown: false }} />
-            {screen === 'home' ? (
-              <Home
-                cancelButtonHandler={cancelButtonHandler}
-                confirmButtonHandler={confirmButtonHandler}
-                handleUserInput={handleUserInput}
-                userNumber={enteredNumber}
-              />
-            ) : screen === 'game' ? (
-              <Game
-                playersNumber={numberToGuess as number}
-                setScreen={setScreen}
-                computerGuesses={computerGuesses}
-                setComputerGuesses={setComputerGuesses}
-              />
-            ) : (
-              <EndGame
-                guessedNumber={numberToGuess as number}
-                numberOfGuesses={computerGuesses.length}
-                setScreen={setScreen}
-                setComputerGuesses={setComputerGuesses}
-              />
-            )}
-          </SafeAreaView>
-        </ImageBackground>
-      </LinearGradient>
-      <StatusBar style="auto" />
-    </SafeAreaProvider>
+          <ImageBackground
+            style={styles.safeArea}
+            imageStyle={styles.image}
+            resizeMode="cover"
+            source={require('../assets/images/background.png')}
+          >
+            <SafeAreaView style={styles.safeArea}>
+              <Stack.Screen options={{ headerShown: false }} />
+              {screen === 'home' ? (
+                <Home
+                  cancelButtonHandler={cancelButtonHandler}
+                  confirmButtonHandler={confirmButtonHandler}
+                  handleUserInput={handleUserInput}
+                  userNumber={enteredNumber}
+                />
+              ) : screen === 'game' ? (
+                <Game
+                  playersNumber={numberToGuess as number}
+                  setScreen={setScreen}
+                  computerGuesses={computerGuesses}
+                  setComputerGuesses={setComputerGuesses}
+                />
+              ) : (
+                <EndGame
+                  guessedNumber={numberToGuess as number}
+                  numberOfGuesses={computerGuesses.length}
+                  setScreen={setScreen}
+                  setComputerGuesses={setComputerGuesses}
+                />
+              )}
+            </SafeAreaView>
+          </ImageBackground>
+        </LinearGradient>
+      </SafeAreaProvider>
+    </>
   );
 }
 
