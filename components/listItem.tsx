@@ -1,6 +1,13 @@
 import { COLORS } from '@/constants/Colors';
 import { ReactElement } from 'react';
-import { StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TextStyle,
+  View,
+  ViewStyle,
+  Platform,
+} from 'react-native';
 
 type ListItemPropsType = {
   guess: number;
@@ -30,11 +37,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 10,
-    elevation: 8,
-    shadowOffset: { height: 8, width: 0 },
-    shadowColor: COLORS.BLACK,
-    shadowRadius: 3,
-    shadowOpacity: 0.25,
+
+    ...Platform.select({
+      android: {
+        elevation: 8,
+      },
+      ios: {
+        shadowOffset: { height: 8, width: 0 },
+        shadowColor: COLORS.BLACK,
+        shadowRadius: 3,
+        shadowOpacity: 0.25,
+      },
+    }),
   } as ViewStyle,
   text: {
     fontWeight: 'condensedBold',

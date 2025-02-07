@@ -7,6 +7,7 @@ import {
   TextStyle,
   View,
   ViewStyle,
+  Platform,
 } from 'react-native';
 
 type CustomButtonPropsProto = {
@@ -77,15 +78,22 @@ const styles = StyleSheet.create({
   container: {
     // borderRadius: 25,
     backgroundColor: COLORS.LIGHTPURPLE,
-    width: 130,
+    width: '100%',
+    // minWidth: '50%',
     height: 40,
     padding: 10,
     alignItems: 'center',
-    elevation: 5,
-    shadowColor: COLORS.BLACK,
-    shadowOffset: { height: 3, width: 0 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
+    ...Platform.select({
+      ios: {
+        shadowColor: COLORS.BLACK,
+        shadowOffset: { height: 3, width: 0 },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+      },
+      android: {
+        elevation: 5,
+      },
+    }),
   } as ViewStyle,
   text: { color: COLORS.WHITE, fontWeight: 'bold' } as TextStyle,
 });

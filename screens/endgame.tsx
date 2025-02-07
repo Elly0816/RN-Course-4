@@ -11,6 +11,9 @@ import {
   ViewStyle,
   Image,
   ImageStyle,
+  Dimensions,
+  useWindowDimensions,
+  ScrollView,
 } from 'react-native';
 
 type EndGamePropsType = {
@@ -19,42 +22,57 @@ type EndGamePropsType = {
   guessedNumber: number;
   setComputerGuesses: React.Dispatch<React.SetStateAction<number[]>>;
 };
+
+const { height: deviceHeight, width: deviceWidth } = Dimensions.get('window');
+
 export default function EndGame({
   numberOfGuesses,
   setScreen,
   guessedNumber,
   setComputerGuesses,
 }: EndGamePropsType): ReactElement {
+  const { height: windowHeight, width: windowWidth } = useWindowDimensions();
+
   return (
-    <View style={styles.container}>
-      <Title
-        textStyle={styles.titleText}
-        style={styles.title}
-        title="Game Over!"
-      />
-      <Image
-        style={styles.image}
-        source={require('@/assets/images/success.png')}
-      />
-      <Text style={styles.mainText}>
-        Your phone needed <Text style={styles.number}>{numberOfGuesses}</Text>{' '}
-        rounds to guess the number{' '}
-        <Text style={styles.number}>{guessedNumber}</Text>.
-      </Text>
-      <Button
-        onPress={() => {
-          setScreen('home');
-          setComputerGuesses([]);
-        }}
-        title="Start New Game"
-        style={styles.button}
-        textStyle={styles.text}
-      />
-    </View>
+    <ScrollView style={styles.screen}>
+      <View style={styles.container}>
+        <Title
+          textStyle={styles.titleText}
+          style={[
+            styles.title,
+            windowWidth > windowHeight &&
+              ({ padding: 0, marginBottom: 20 } as ViewStyle),
+          ]}
+          title="Game Over!"
+        />
+        <Image
+          style={[
+            styles.image,
+            windowWidth > windowHeight && ({ height: 90 } as ImageStyle),
+          ]}
+          source={require('@/assets/images/success.png')}
+        />
+        <Text style={styles.mainText}>
+          Your phone needed <Text style={styles.number}>{numberOfGuesses}</Text>{' '}
+          rounds to guess the number{' '}
+          <Text style={styles.number}>{guessedNumber}</Text>.
+        </Text>
+        <Button
+          onPress={() => {
+            setScreen('home');
+            setComputerGuesses([]);
+          }}
+          title="Start New Game"
+          style={styles.button}
+          textStyle={styles.text}
+        />
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  screen: { flex: 1 } as ViewStyle,
   container: {
     padding: 26,
     flex: 1,
@@ -86,16 +104,16 @@ const styles = StyleSheet.create({
     fontSize: 20,
   } as TextStyle,
   title: {
-    width: '100%',
+    // width: '100%',
   } as ViewStyle,
   titleText: {
     fontFamily: 'OpenSansBold',
   } as TextStyle,
   image: {
     resizeMode: 'stretch',
-    height: 220,
+    height: deviceWidth < 380 ? 180 : 250,
     aspectRatio: 1,
-    borderRadius: 200,
+    borderRadius: deviceWidth < 380 ? 90 : 125,
     borderColor: COLORS.BLACK,
     borderWidth: 2,
   } as ImageStyle,

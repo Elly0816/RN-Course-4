@@ -65,7 +65,7 @@ export default function HigherOrLower({
 const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.PURPLE,
-    height: 150,
+    // height: 150,
     width: '100%',
     borderRadius: 12,
     justifyContent: 'space-around',
@@ -85,7 +85,8 @@ const styles = StyleSheet.create({
   } as TextStyle,
   button: {
     backgroundColor: COLORS.LIGHTPURPLE,
-    width: 130,
+    // width: 130,
+    minWidth: '45%',
     height: 40,
     padding: 10,
     borderRadius: 25,

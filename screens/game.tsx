@@ -3,7 +3,7 @@ import ListItem from '@/components/listItem';
 import NumberDisplay from '@/components/numberDisplay';
 import Title from '@/components/title';
 import { screenType } from '@/types';
-import { ReactElement, useEffect, useRef, useState } from 'react';
+import React, { ReactElement, useEffect, useRef, useState } from 'react';
 import {
   StyleSheet,
   FlatList,
@@ -11,6 +11,7 @@ import {
   Alert,
   ViewStyle,
   TextStyle,
+  useWindowDimensions,
 } from 'react-native';
 
 type GamePropsType = {
@@ -30,6 +31,8 @@ export default function Game({
   const [maxLimit, setMaxLimit] = useState<number>(99);
   const [minLimit, setMinLimit] = useState<number>(1);
   const [disable, setDisable] = useState<boolean>(false);
+
+  const { height: windowHeight, width: windowWidth } = useWindowDimensions();
 
   useEffect(() => {
     randomGuess();
@@ -97,8 +100,8 @@ export default function Game({
     return;
   }
 
-  return (
-    <View style={styles.container}>
+  let content = (
+    <>
       <Title
         textStyle={styles.titleText}
         title="Opponent's Guess"
@@ -110,7 +113,6 @@ export default function Game({
         lowerButtonHandler={lowerButtonHandler}
         disabled={disable}
       />
-
       <View style={styles.list}>
         <FlatList
           ref={listRef}
@@ -121,8 +123,44 @@ export default function Game({
           keyExtractor={(item, index) => index.toString()}
         />
       </View>
-    </View>
+    </>
   );
+
+  if (windowWidth > windowHeight) {
+    content = (
+      <>
+        <View style={styles.containerStyle}>
+          <View style={styles.childStyle}>
+            <Title
+              textStyle={styles.titleText}
+              title="Opponent's Guess"
+              style={styles.title}
+            />
+            <NumberDisplay numberGuessed={computerGuess as number} />
+            <HigherOrLower
+              higherButtonHandler={higherButtonHandler}
+              lowerButtonHandler={lowerButtonHandler}
+              disabled={disable}
+            />
+          </View>
+          <View style={styles.childStyle}>
+            <View style={styles.list}>
+              <FlatList
+                ref={listRef}
+                data={computerGuesses}
+                renderItem={({ item, index }) => (
+                  <ListItem guess={item} key={index} index={index} />
+                )}
+                keyExtractor={(item, index) => index.toString()}
+              />
+            </View>
+          </View>
+        </View>
+      </>
+    );
+  }
+
+  return <View style={styles.container}>{content}</View>;
 }
 
 const styles = StyleSheet.create({
@@ -135,7 +173,6 @@ const styles = StyleSheet.create({
   } as ViewStyle,
   title: {
     alignItems: 'center',
-    width: '100%',
   } as ViewStyle,
 
   list: {
@@ -143,4 +180,14 @@ const styles = StyleSheet.create({
     width: '100%',
   } as ViewStyle,
   titleText: { fontFamily: 'OpenSansBold' } as TextStyle,
+  containerStyle: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  } as ViewStyle,
+  childStyle: {
+    width: '50%',
+    paddingHorizontal: 10,
+  } as ViewStyle,
 });

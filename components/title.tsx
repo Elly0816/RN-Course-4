@@ -1,10 +1,17 @@
 import { COLORS } from '@/constants/Colors';
 import { ReactElement } from 'react';
-import { View, Text, StyleSheet, ViewStyle, TextStyle } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ViewStyle,
+  TextStyle,
+  StyleProp,
+} from 'react-native';
 
 type titlePropsType = {
   title: string;
-  style?: ViewStyle;
+  style?: StyleProp<ViewStyle>;
   textStyle?: TextStyle;
 };
 export default function Title({
@@ -35,5 +42,6 @@ const styles = StyleSheet.create({
     color: COLORS.WHITE,
     fontSize: 25,
     maxWidth: '80%',
+    marginHorizontal: 20,
   } as TextStyle,
 });
